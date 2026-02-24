@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# Portal de Ferramentas Utilitárias
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Sobre o projeto
 
-Currently, two official plugins are available:
+Esse projeto foi desenvolvido com o objetivo de criar um portal com ferramentas úteis para o dia a dia. A ideia é reunir em um só lugar funcionalidades simples, mas importantes, como organização de tarefas, cadastro de contatos e controle de gastos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A aplicação foi feita utilizando React com TypeScript, focando em tipagem correta, organização de componentes e validação de formulários. Também foi utilizada persistência com localStorage para que os dados não sejam perdidos ao atualizar a página.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologias utilizadas
 
-## Expanding the ESLint configuration
+- React + Vite  
+- TypeScript  
+- TailwindCSS  
+- React Hook Form  
+- Zod  
+- React Router Dom  
+- LocalStorage  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Funcionalidades
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Home
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Página inicial com uma breve apresentação e três cards principais que direcionam para:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- TaskMaster (Lista de Tarefas)  
+- ConnectHub (Cadastro de Contatos)  
+- MoneyFlow (Controle de Gastos)  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+A Navbar permanece visível em todas as páginas.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+### TaskMaster
+
+Permite:
+
+- Adicionar tarefas  
+- Listar tarefas  
+- Remover tarefas  
+
+Regras:
+
+- O título é obrigatório  
+- Deve ter no mínimo 5 caracteres  
+- A categoria pode ser: Trabalho, Pessoal ou Urgente  
+- As tarefas são salvas no localStorage  
+
+---
+
+### ConnectHub
+
+Permite cadastrar contatos com:
+
+- Nome completo  
+- E-mail  
+- Telefone  
+
+Validações:
+
+- O e-mail deve ser válido  
+- O telefone deve conter apenas números  
+
+Os dados podem ser salvos no localStorage.
+
+---
+
+### MoneyFlow
+
+Permite registrar entradas e saídas de valores.
+
+Campos:
+
+- Descrição  
+- Valor  
+
+Regras:
+
+- O valor não pode ser zero ou negativo  
+- O saldo total é exibido no topo da página  
