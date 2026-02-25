@@ -4,14 +4,16 @@ import { financeSchema } from "../schemas/financeSchema";
 import type { Finance } from "../schemas/financeSchema";
 import { useState } from "react";
 
+type FinanceWithType = Finance & { type: "entrada" | "saida" };
+
 export default function MoneyFlow() {
-  const { register, handleSubmit, reset } = useForm<Finance>({
+  const { register, handleSubmit, reset } = useForm<FinanceWithType>({
     resolver: zodResolver(financeSchema),
   });
 
-  const [transactions, setTransactions] = useState<Finance[]>([]);
+  const [transactions, setTransactions] = useState<FinanceWithType[]>([]);
 
-  const onSubmit = (data: Finance) => {
+  const onSubmit = (data: FinanceWithType) => {
     if (data.amount <= 0) {
       alert("O valor deve ser maior que zero!");
       return;
@@ -31,7 +33,10 @@ export default function MoneyFlow() {
     alert("Transações salvas com sucesso!");
   };
 
-  const total = transactions.reduce((acc, t) => acc + t.amount, 0);
+  // cálculo do saldo considerando entrada (+) e saída (-)
+  const total = transactions.reduce((acc, t) => {
+    return t.type === "entrada" ? acc + t.amount : acc - t.amount;
+  }, 0);
 
   return (
     <div className="p-6">
@@ -39,6 +44,10 @@ export default function MoneyFlow() {
       <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 mb-4">
         <input {...register("description")} placeholder="Descrição" className="border p-2" />
         <input type="number" step="0.01" {...register("amount", { valueAsNumber: true })} placeholder="Valor" className="border p-2" />
+        <select {...register("type")} className="border p-2">
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
         <button type="submit" className="bg-purple-600 text-white px-4 py-2">Adicionar</button>
         <button type="button" onClick={salvarNoLocalStorage} className="bg-gray-600 text-white px-4 py-2">
           Salvar
@@ -48,7 +57,7 @@ export default function MoneyFlow() {
       <ul>
         {transactions.map((t, i) => (
           <li key={i} className="border-b py-2 flex justify-between">
-            {t.description} - R$ {t.amount.toFixed(2)}
+            {t.description} - R$ {t.amount.toFixed(2)} ({t.type})
             <button onClick={() => removeTransaction(i)} className="text-red-600">Remover</button>
           </li>
         ))}
