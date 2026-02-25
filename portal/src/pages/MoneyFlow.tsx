@@ -33,7 +33,7 @@ export default function MoneyFlow() {
     alert("Transações salvas com sucesso!");
   };
 
-  // cálculo do saldo considerando entrada (+) e saída (-)
+
   const total = transactions.reduce((acc, t) => {
     return t.type === "entrada" ? acc + t.amount : acc - t.amount;
   }, 0);
